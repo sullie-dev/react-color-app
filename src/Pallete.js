@@ -6,7 +6,7 @@ export default class Pallete extends Component {
   render() {
     // console.log(this.props.colors.map((c) => c.name));
     const colorBoxes = this.props.colors.map((c)=> (
-        <ColorBox background={c.color} name={c.name} />
+        <ColorBox background={c.color} name={c.name} key={c.name} />
     ));
 
     return (
