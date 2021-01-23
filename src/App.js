@@ -5,8 +5,6 @@ import {generatePallete} from "./colorHelpers"
 
 
 function App() {
-  console.log(generatePallete(seedColors[4]))
-
   return (
     <div className="App">
       <Pallete pallete={generatePallete(seedColors[4])}/>
