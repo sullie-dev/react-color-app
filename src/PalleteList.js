@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/styles";
 const styles = {
   root: {
     backgroundColor: "blue",
-    height: "100%",
+    height: "100vh",
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",
@@ -45,7 +45,6 @@ class PalleteList extends Component {
           <div className={classes.palletes}>
             {palletes.map((pallete) => (
               <MiniPalette {...pallete} />
-              /* <Link to={`/pallete/${pallete.id}`}>{pallete.paletteName}</Link> */
             ))}
           </div>
         </div>
