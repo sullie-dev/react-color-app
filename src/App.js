@@ -5,6 +5,8 @@ import seedColors from "./seedColours";
 import { generatePallete } from "./colorHelpers";
 import { Component } from "react";
 import PalleteList from "./PalleteList";
+import SingleColorPallete from "./SingleColorPallete";
+
 
 class App extends Component {
   findPallete(id) {
@@ -36,7 +38,7 @@ class App extends Component {
         <Route
           exact
           path="/pallete/:palleteId/:colorId"
-          render={() => <h1>Single color page</h1>}
+          render={() => <SingleColorPallete/>}
         />
       </Switch>
     );

@@ -19,13 +19,19 @@ export default class Pallete extends Component {
     this.setState({ format: val });
   }
   render() {
-    const { colors, palleteName, emoji } = this.props.pallete;
+    const { colors, palleteName, emoji, id } = this.props.pallete;
     const { level, format } = this.state;
     const colorBoxes = colors[level].map((color) => (
-      <ColorBox background={color[format]} name={color.name} key={color.id} />
+      <ColorBox
+        background={color[format]}
+        name={color.name}
+        key={color.id}
+        palleteId={id}
+        moreURL={`/pallete/${id}/${color.id}`}
+      />
     ));
 
-    console.log(this.props)
+    console.log(this.props);
 
     return (
       <div className="Pallete">
@@ -42,7 +48,7 @@ export default class Pallete extends Component {
         {/* TODO(3): Add footer */}
         <footer className="Pallete-footer">
           {palleteName}
-          
+
           <span className="emoji">{emoji}</span>
         </footer>
       </div>
