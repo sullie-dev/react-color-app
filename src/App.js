@@ -6,7 +6,6 @@ import { generatePallete } from "./colorHelpers";
 import { Component } from "react";
 import PalleteList from "./PalleteList";
 
-
 class App extends Component {
   findPallete(id) {
     return seedColors.find(function (pallete) {
@@ -16,7 +15,13 @@ class App extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" render={() => <PalleteList palletes={seedColors} />} />
+        <Route
+          exact
+          path="/"
+          render={(routeProps) => (
+            <PalleteList palletes={seedColors} {...routeProps} />
+          )}
+        />
         <Route
           exact
           path="/pallete/:id"
