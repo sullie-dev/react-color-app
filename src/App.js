@@ -7,7 +7,6 @@ import { Component } from "react";
 import PalleteList from "./PalleteList";
 import SingleColorPallete from "./SingleColorPallete";
 
-
 class App extends Component {
   findPallete(id) {
     return seedColors.find(function (pallete) {
@@ -38,7 +37,14 @@ class App extends Component {
         <Route
           exact
           path="/pallete/:palleteId/:colorId"
-          render={() => <SingleColorPallete/>}
+          render={(routerProps) => (
+            <SingleColorPallete
+              colorId={routerProps.match.params.colorId}
+              pallete={generatePallete(
+                this.findPallete(routerProps.match.params.palleteId)
+              )}
+            />
+          )}
         />
       </Switch>
     );

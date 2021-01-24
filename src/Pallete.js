@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
 import "./Pallete.css";
+import PalleteFooter from "./PalleteFooter";
 
 export default class Pallete extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class Pallete extends Component {
         key={color.id}
         palleteId={id}
         moreURL={`/pallete/${id}/${color.id}`}
+        showLink={true}
       />
     ));
 
@@ -40,17 +42,14 @@ export default class Pallete extends Component {
           level={level}
           changeLevel={this.changeLevel}
           handleChange={this.changeFormat}
+          showColorBar
         />
         <div className="Pallete-colors">
           {/* TODO(2): Add in color boxes for pallete */}
           {colorBoxes}
         </div>
         {/* TODO(3): Add footer */}
-        <footer className="Pallete-footer">
-          {palleteName}
-
-          <span className="emoji">{emoji}</span>
-        </footer>
+        <PalleteFooter palleteName={palleteName} emoji={emoji}/>
       </div>
     );
   }
