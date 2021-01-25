@@ -29,7 +29,7 @@ export default class Pallete extends Component {
         key={color.id}
         palleteId={id}
         moreURL={`/pallete/${id}/${color.id}`}
-        showLink={true}
+        showingFullPallete
       />
     ));
 
