@@ -1,20 +1,6 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
-
-const styles = {
-  PalleteFooter: {
-    backgroundColor: "white",
-    height: "5vh",
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    fontWeight: "bold",
-  },
-  Emoji:{
-    fontSize: "1.5rem",
-    margin: "0.1rem",
-  },
-};
+import styles from './styles/PalleteFooterStyles'
 
 export default withStyles(styles)(
   class PalleteFooter extends Component {

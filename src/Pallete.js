@@ -3,19 +3,10 @@ import { PinDropRounded } from "@material-ui/icons";
 import React, { Component } from "react";
 import ColorBox from "./ColorBox";
 import Navbar from "./Navbar";
-import "./Pallete.css";
+import styles from "./styles/PalleteStyles";
 import PalleteFooter from "./PalleteFooter";
+import chroma from "chroma-js";
 
-const styles = {
-  Pallete:{
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-  },
-  PalleteColors:{
-    height :"90%",
-  },
-};
 
 export default withStyles(styles)(
   class Pallete extends Component {
