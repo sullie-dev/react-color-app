@@ -18,6 +18,23 @@ export default {
       width: "100%",
       justifyContent: "space-between",
       color: "white",
+      alignItems:'center',
+      color:'white',
+      "& a":{
+        textDecoration:'none',
+        color:'white',
+        transition: '0.6s',
+      },
+      "& a :after":{
+        display: 'block',
+        content: "",
+        borderBottom: 'solid 3px white',
+        transform: 'scaleX(0)',
+        transition: "transform 250ms ease-in-out",
+      },
+      '& a :hover:after': {
+        transform: 'scaleX(.1)',
+      },
     },
     palletes: {
       boxSizing: "border-box",
