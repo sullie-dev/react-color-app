@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props) {
   useEffect(() => {
     ValidatorForm.addValidationRule("isColorNameUnique", (value) =>
       colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
@@ -105,18 +105,26 @@ export default function PersistentDrawerLeft() {
   };
   const addColor = () => {
     setColors((colors) => [...colors, { name: colorName, color: currColor }]);
-    setColorName('')
-    setCurrColor('#fff')
+    setColorName("");
+    setCurrColor("#fff");
   };
   const handleChange = (e) => {
     setColorName(e.target.value);
   };
+
+  const handleSubmit = () =>{
+    let newName = "Test pallete"
+    const newPallete ={paletteName:"Test pallete", id:newName.toLowerCase().replace(/ /g,"-" ) ,colors:colors}
+    props.savePallete(newPallete)
+    props.history.push('/')
+  }
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
         position="fixed"
+        color='default'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -134,6 +142,9 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" noWrap>
             Persistent drawer
           </Typography>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Save Pallete
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -170,8 +181,12 @@ export default function PersistentDrawerLeft() {
           <TextValidator
             value={colorName}
             onChange={handleChange}
-            validators={["required","isColorNameUnique", "isColorColorUnique"]}
-            errorMessages={["Color name is required","Color name is not unique", "Color already used"]}
+            validators={["required", "isColorNameUnique", "isColorColorUnique"]}
+            errorMessages={[
+              "Color name is required",
+              "Color name is not unique",
+              "Color already used",
+            ]}
           />
           <Button type="submit" variant="contained" color="primary">
             Add color
