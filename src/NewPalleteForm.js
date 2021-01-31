@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -13,8 +13,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { ChromePicker } from "react-color";
 import Button from "@material-ui/core/Button";
 import DraggableColorBox from "./DraggableColorBox";
-
-
+import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
 const drawerWidth = 400;
 
@@ -59,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    height:'calc(100vh - 64px)',
+    height: "calc(100vh - 64px)",
     padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
@@ -77,11 +76,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+  useEffect(() => {
+    ValidatorForm.addValidationRule("isColorNameUnique", (value) =>
+      colors.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
+    );
+    ValidatorForm.addValidationRule("isColorColorUnique", (value) =>
+      colors.every(({ color }) => color !== currColor)
+    );
+  });
+
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
-  const [currColor, setCurrColor] = React.useState("");
-  const [colors, setColors] = React.useState([]);
+  const [open, setOpen] = useState(true);
+  const [currColor, setCurrColor] = useState("#7F4141");
+  const [colors, setColors] = useState([]);
+  const [colorName, setColorName] = useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -92,11 +101,15 @@ export default function PersistentDrawerLeft() {
   };
 
   const addCurrColor = (newColor) => {
-    console.log(newColor);
     setCurrColor(newColor);
   };
   const addColor = () => {
-    setColors((colors) => [...colors, currColor]);
+    setColors((colors) => [...colors, { name: colorName, color: currColor }]);
+    setColorName('')
+    setCurrColor('#fff')
+  };
+  const handleChange = (e) => {
+    setColorName(e.target.value);
   };
 
   return (
@@ -150,16 +163,20 @@ export default function PersistentDrawerLeft() {
 
         <ChromePicker
           color={currColor}
-          onChange={(newColor) => addCurrColor(newColor.hex)}
+          // onChange={(newColor) => addCurrColor(newColor.hex)}
           onChangeComplete={(newColor) => addCurrColor(newColor.hex)}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={(newColor) => addColor(newColor.hex)}
-        >
-          Add color
-        </Button>
+        <ValidatorForm onSubmit={addColor}>
+          <TextValidator
+            value={colorName}
+            onChange={handleChange}
+            validators={["required","isColorNameUnique", "isColorColorUnique"]}
+            errorMessages={["Color name is required","Color name is not unique", "Color already used"]}
+          />
+          <Button type="submit" variant="contained" color="primary">
+            Add color
+          </Button>
+        </ValidatorForm>
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -167,9 +184,9 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-          {colors.map((c) => (
-              <DraggableColorBox color={c}/>
-          ))}
+        {colors.map((c) => (
+          <DraggableColorBox color={c.color} name={c.name} />
+        ))}
       </main>
     </div>
   );
