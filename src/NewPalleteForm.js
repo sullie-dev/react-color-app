@@ -231,7 +231,7 @@ export default function PersistentDrawerLeft(props) {
       >
         <div className={classes.drawerHeader} />
         {colors.map((c) => (
-          <DraggableColorBox color={c.color} name={c.name} />
+          <DraggableColorBox color={c.color} name={c.name} key={c.name} />
         ))}
       </main>
     </div>
