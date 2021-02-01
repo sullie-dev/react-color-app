@@ -83,6 +83,11 @@ export default function PersistentDrawerLeft(props) {
     ValidatorForm.addValidationRule("isColorColorUnique", (value) =>
       colors.every(({ color }) => color !== currColor)
     );
+    ValidatorForm.addValidationRule("isPalleteNameUnique", (value) =>
+      props.palletes.every(
+        ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
+      )
+    );
   });
 
   const classes = useStyles();
@@ -91,6 +96,7 @@ export default function PersistentDrawerLeft(props) {
   const [currColor, setCurrColor] = useState("#7F4141");
   const [colors, setColors] = useState([]);
   const [colorName, setColorName] = useState("");
+  const [newPalleteName, setNewPalleteName] = useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -109,22 +115,30 @@ export default function PersistentDrawerLeft(props) {
     setCurrColor("#fff");
   };
   const handleChange = (e) => {
-    setColorName(e.target.value);
+    // e.target.name(e.target.value)
+    if (e.target.name == "setColorName") {
+      setColorName(e.target.value);
+    } else {
+      setNewPalleteName(e.target.value);
+    }
   };
 
-  const handleSubmit = () =>{
-    let newName = "Test pallete"
-    const newPallete ={paletteName:"Test pallete", id:newName.toLowerCase().replace(/ /g,"-" ) ,colors:colors}
-    props.savePallete(newPallete)
-    props.history.push('/')
-  }
+  const handleSubmit = () => {
+    const newPallete = {
+      paletteName: newPalleteName,
+      id: newPalleteName.toLowerCase().replace(/ /g, "-"),
+      colors: colors,
+    };
+    props.savePallete(newPallete);
+    props.history.push("/");
+  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
         position="fixed"
-        color='default'
+        color="default"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -142,9 +156,25 @@ export default function PersistentDrawerLeft(props) {
           <Typography variant="h6" noWrap>
             Persistent drawer
           </Typography>
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Save Pallete
-          </Button>
+          <ValidatorForm onSubmit={handleSubmit}>
+            <TextValidator
+              name="setNewPalleteName"
+              label="Pallete Name"
+              value={newPalleteName}
+              onChange={handleChange}
+              validators={[
+                "required",
+                "isPalleteNameUnique",
+              ]}
+              errorMessages={[
+                "Pallete Name is required",
+                "Pallete name is not unique",
+              ]}
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Save Pallete
+            </Button>
+          </ValidatorForm>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -179,6 +209,7 @@ export default function PersistentDrawerLeft(props) {
         />
         <ValidatorForm onSubmit={addColor}>
           <TextValidator
+            name="setColorName"
             value={colorName}
             onChange={handleChange}
             validators={["required", "isColorNameUnique", "isColorColorUnique"]}
